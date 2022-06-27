@@ -28,7 +28,7 @@
                                             <autoresizingMask key="autoresizingMask"/>
                                             <color key="backgroundColor" systemColor="systemGray6Color"/>
                                         </tableViewCellContentView>
-                                        <color key="tintColor" systemColor="systemGray5Color"/>
+                                        <color key="tintColor" white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
                                     </tableViewCell>
                                 </prototypes>
                             </tableView>
@@ -36,7 +36,17 @@
                         <viewLayoutGuide key="safeArea" id="6Tk-OE-BBY"/>
                         <color key="backgroundColor" systemColor="systemBackgroundColor"/>
                     </view>
-                    <navigationItem key="navigationItem" title="ListApp" id="NmB-Br-mZ6"/>
+                    <toolbarItems>
+                        <barButtonItem title="Item" id="xq6-gA-GZG"/>
+                    </toolbarItems>
+                    <navigationItem key="navigationItem" title="ListApp" id="NmB-Br-mZ6">
+                        <barButtonItem key="rightBarButtonItem" systemItem="add" id="bqM-Sx-uYd">
+                            <connections>
+                                <action selector="didAddBarButtonItemTapped:" destination="BYZ-38-t0r" id="ETC-Wf-GcU"/>
+                            </connections>
+                        </barButtonItem>
+                    </navigationItem>
+                    <simulatedToolbarMetrics key="simulatedBottomBarMetrics"/>
                     <connections>
                         <outlet property="tableView" destination="eVS-z5-s2U" id="MNK-k4-OvV"/>
                     </connections>
@@ -67,9 +77,6 @@
     <resources>
         <systemColor name="systemBackgroundColor">
             <color white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
-        </systemColor>
-        <systemColor name="systemGray5Color">
-            <color red="0.89803921568627454" green="0.89803921568627454" blue="0.91764705882352937" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
         </systemColor>
         <systemColor name="systemGray6Color">
             <color red="0.94901960784313721" green="0.94901960784313721" blue="0.96862745098039216" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
