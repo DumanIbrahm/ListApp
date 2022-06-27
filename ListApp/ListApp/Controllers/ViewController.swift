@@ -7,7 +7,7 @@
 
 import UIKit
 
-class ViewController: UIViewController, UITableViewDelegate, UITableViewDataSource {
+class ViewController: UIViewController {
     
     @IBOutlet weak var tableView: UITableView!
     
@@ -20,14 +20,15 @@ class ViewController: UIViewController, UITableViewDelegate, UITableViewDataSour
         tableView.delegate = self
         tableView.dataSource = self
     }
-    func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
-        return data.count
-    }
     
-    func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
-        let cell = tableView.dequeueReusableCell(withIdentifier: "defaultCell", for: indexPath)
-        cell.textLabel?.text=data[indexPath.row]
-        return cell
+    @IBAction func didRemoveBarButtonItemTapped(_ sender : UIBarButtonItem){
+        presentAlert(title: "Uyarı",
+                     message: "Bütün öğeleri silmek istediğinizden emin misiniz?",
+                     defaultButtonTitle: "Evet",
+                     cancelButtonTitle: "Vazgeç") { _ in
+            self.data.removeAll()
+            self.tableView.reloadData()
+        }
     }
     
     @IBAction func didAddBarButtonItemTapped(_ sender: UIBarButtonItem){
@@ -87,5 +88,42 @@ class ViewController: UIViewController, UITableViewDelegate, UITableViewDataSour
     }
 }
 
+extension ViewController: UITableViewDelegate, UITableViewDataSource {
+    func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
+        return data.count
+    }
+    
+    func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
+        let cell = tableView.dequeueReusableCell(withIdentifier: "defaultCell", for: indexPath)
+        cell.textLabel?.text=data[indexPath.row]
+        return cell
+    }
+    func tableView(_ tableView: UITableView, trailingSwipeActionsConfigurationForRowAt indexPath: IndexPath) -> UISwipeActionsConfiguration? {
+        let deleteAction = UIContextualAction(style: .normal, title: "Sil") { _, _, _ in
+            self.data.remove(at: indexPath.row)
+            self.tableView.reloadData()
+        }
+        deleteAction.backgroundColor = .systemRed
         
+        let editAction = UIContextualAction(style: .normal, title: "Düzenle") { _, _, _ in
+            self.presentAlert(title: "Elemanı Düzenle",
+                         message: nil,
+                         defaultButtonTitle: "Düzenle",
+                         cancelButtonTitle: "Vazgeç",
+                         isTextFieldAvailabe: true,
+                         defaultButtonhandler: { _ in
+                let text = self.alertController.textFields?.first?.text
+                if text != ""{
+                    self.data[indexPath.row] = text!
+                    self.tableView.reloadData()
+                }else{
+                    self.presentWarningAlert()
+                }
+            })
+        }
+        
+        let config = UISwipeActionsConfiguration(actions: [deleteAction,editAction])
+        return config
+    }
+}
     
